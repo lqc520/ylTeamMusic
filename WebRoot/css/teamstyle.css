@@ -1,0 +1,112 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td { margin:0; padding:0; }
+body { background:#fff; color:#555; font-size:14px; font-family: Verdana, Arial, Helvetica, sans-serif; }
+td,th,caption { font-size:14px; }
+h1, h2, h3, h4, h5, h6 { font-weight:normal; font-size:100%; }
+address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:normal;}
+a { text-decoration:none; }
+a:hover { text-decoration:underline; }
+img { border:none; }
+ol,ul,li { list-style:none; }
+input, textarea, select, button { font:14px Verdana,Helvetica,Arial,sans-serif; }
+table { border-collapse:collapse; }
+html {overflow-y: scroll;} 
+
+body{
+	width: 100%;
+	background-image: url('../images/bg.jpg');
+	background-repeat: no-repeat;
+	background-size: 120% 120%;
+	background-clip: border-box;
+	background-attachment: fixed;
+}
+
+.team{
+	width: 100%;
+}
+
+
+.member{
+	width: 100%;
+/*	background-color: #333;*/
+	overflow: hidden;
+}
+
+header{
+	text-align: center;
+	font-size: 35px;
+	margin-bottom: 90px;
+	margin-top: 60px;
+	color: #fff;
+}
+
+.member .member-list{
+	margin-bottom: 20px; 
+	overflow: hidden;
+}
+
+.person{
+	margin-bottom: 60px;
+	width: 33%;
+	float: left;
+}
+
+.person .wrap{
+	margin: auto;
+	width: 70%;
+	height: 100px;
+	padding: 20px 10px;
+	font-size: 15px;
+	font-family: "calluna-sans",Helvetica, 'Hiragino Sans GB', 'Microsoft JhengHei', 'WenQuanYi Micro Hei', sans-serif;
+	color: #fff;
+	overflow: hidden;
+}
+
+.person .wrap:hover{
+	background-color: #666;
+}
+
+.person .wrap div{
+	float: left;
+}
+
+.person .wrap .img-wrap{
+	width: 30%;
+	margin-right: 10px;
+}
+
+.person .wrap .info{
+	width: 66%;
+}
+
+.img-wrap img{
+	border-radius: 30px;
+	width: 80px;
+	height: 80px;
+}
+
+.person .wrap a{
+	text-decoration: underline;
+	color: #fff;
+}
+
+.person .info a:hover{
+	color:#E50053;
+}
+
+.person p{
+	margin-bottom: 10px;
+}
+
+.person .name{
+	font-size: 25px;
+}
+
+
+footer{
+	margin-bottom: 20px;
+}
+
+footer p {
+	color: #fff;
+	text-align: center;
+}

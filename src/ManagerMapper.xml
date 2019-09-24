@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.ManagerMapper">
+	<select id="selectMusicTypeIdByName" resultType="int" parameterType="String">
+		select musicTypeId from musictype where musicTypeName=#{musicTypeName}
+	</select>
+	
+	<select id="selectSingerTypeIdByName" resultType="String" parameterType="String">
+		SELECT singerId from singer where singerName=#{singerTypeIdByName}
+	</select>
+	
+	<insert id="insertMusic"  parameterType="entity.Music" >
+		<selectKey resultType="java.lang.Integer" keyProperty="musicid" order="AFTER" >
+	      SELECT LAST_INSERT_ID()
+	    </selectKey>
+		insert into Music(musicName,musicPhotoURL,singerId,musicHot,lyricURL,musicTypeId,songURL,time) values(#{musicname},#{musicphotourl},#{singerid},#{musichot},#{lyricurl},#{musictypeid},#{songurl},#{time})
+	</insert>
+	
+	<insert id="insertSinger" parameterType="String">
+		<selectKey resultType="java.lang.Integer" keyProperty="singerId" order="AFTER" >
+	      	SELECT LAST_INSERT_ID()
+	    </selectKey>
+		INSERT into singer(singerName) VALUE (#{singerName})
+	</insert>
+	
+	<select id="getAllUser" resultType="hashmap">
+  	   select * from user
+	  </select>
+	  
+	  <select id="getAllVideo" resultType="hashmap">
+	  	   select * from video
+	  </select>
+	  
+	  
+	  <!-- 音乐的增删改 -->
+	  <update id="editMuisc">
+	  		update music set musicName=#{musicname},musicPhotoURL=#{musicphotourl},singerId=#{singerid},musicHot=#{musichot},lyricURL=#{lyricurl},musicTypeId=#{musictypeid},songURL=#{songurl},time=#{time} where musicId=#{musicid}
+	  </update>
+	  
+	  
+	  
+	  
+	  <!-- 客户的增删改 -->
+	  <delete id="deleteUser" parameterType="int">
+	  		 delete from user where userId=#{userId}
+	  </delete>
+	  
+	  <insert id="insertUser" parameterType="entity.User">
+	  		<selectKey resultType="java.lang.Integer" keyProperty="userid" order="AFTER" >
+	      		SELECT LAST_INSERT_ID()
+	      	</selectKey>
+			insert into user(userName,userEmail,userPwd,phone,address)values(#{username},#{useremail},#{userpwd},#{phone},#{address})
+	  </insert>
+	  
+	  <update id="editUser" parameterType="entity.User">
+	  		update user set userName=#{username},userEmail=#{useremail},userPwd=#{userpwd},phone=#{phone},address=#{address} where userId=#{userid}
+	  </update>
+	  
+	  
+	  
+	  <!-- 视频的增删改 -->
+	  <delete id="deleteVideo" parameterType="int">
+	  		delete from video where videoId=#{videoId}
+	  </delete>
+	  
+	  <insert id="insertVideo" parameterType="entity.Video">
+	  		<selectKey resultType="java.lang.Integer" keyProperty="videoid" order="AFTER" >
+	      		SELECT LAST_INSERT_ID()
+	      	</selectKey>
+	      	insert into video(videoName,videoAuthor,videoPhoto,videoURL,videoTime) values(#{videoname},#{videoauthor},#{videophoto},#{videourl},#{videotime})
+	  </insert>
+	  
+	  <update id="editVideo" parameterType="entity.Video">
+	  		update video set videoName=#{videoname},videoAuthor=#{videoauthor},videoPhoto=#{videophoto},videoURL=#{videourl},videoTime=#{videotime} where videoId=#{videoid}
+	  </update>
+</mapper>

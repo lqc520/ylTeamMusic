@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.RecommendedMapper" >
+  <resultMap id="BaseResultMap" type="entity.Recommended" >
+    <id column="recommendedId" property="recommendedid" jdbcType="INTEGER" />
+    <result column="recommendedName" property="recommendedname" jdbcType="VARCHAR" />
+    <result column="photoURL" property="photourl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    recommendedId, recommendedName, photoURL
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="entity.RecommendedExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from recommended
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from recommended
+    where recommendedId = #{recommendedid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from recommended
+    where recommendedId = #{recommendedid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="entity.RecommendedExample" >
+    delete from recommended
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="entity.Recommended" >
+    <selectKey resultType="java.lang.Integer" keyProperty="recommendedid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into recommended (recommendedName, photoURL)
+    values (#{recommendedname,jdbcType=VARCHAR}, #{photourl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="entity.Recommended" >
+    <selectKey resultType="java.lang.Integer" keyProperty="recommendedid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into recommended
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recommendedname != null" >
+        recommendedName,
+      </if>
+      <if test="photourl != null" >
+        photoURL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recommendedname != null" >
+        #{recommendedname,jdbcType=VARCHAR},
+      </if>
+      <if test="photourl != null" >
+        #{photourl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="entity.RecommendedExample" resultType="java.lang.Integer" >
+    select count(*) from recommended
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update recommended
+    <set >
+      <if test="record.recommendedid != null" >
+        recommendedId = #{record.recommendedid,jdbcType=INTEGER},
+      </if>
+      <if test="record.recommendedname != null" >
+        recommendedName = #{record.recommendedname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.photourl != null" >
+        photoURL = #{record.photourl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update recommended
+    set recommendedId = #{record.recommendedid,jdbcType=INTEGER},
+      recommendedName = #{record.recommendedname,jdbcType=VARCHAR},
+      photoURL = #{record.photourl,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="entity.Recommended" >
+    update recommended
+    <set >
+      <if test="recommendedname != null" >
+        recommendedName = #{recommendedname,jdbcType=VARCHAR},
+      </if>
+      <if test="photourl != null" >
+        photoURL = #{photourl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where recommendedId = #{recommendedid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="entity.Recommended" >
+    update recommended
+    set recommendedName = #{recommendedname,jdbcType=VARCHAR},
+      photoURL = #{photourl,jdbcType=VARCHAR}
+    where recommendedId = #{recommendedid,jdbcType=INTEGER}
+  </update>
+</mapper>

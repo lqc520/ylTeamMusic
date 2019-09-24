@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<!-- 一个数据库一个context -->
+	<context id="ylTeamMusic">
+		<!-- 注释 -->
+		<commentGenerator >
+			<property name="suppressAllComments" value="true"/><!-- 是否取消注释 -->
+			<property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳-->
+		</commentGenerator>
+		
+		<!-- jdbc连接 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://127.0.0.1/music?characterEncoding=utf-8&amp;allowMultiQueries=true" 
+			userId="root"
+			password="123456" />
+		
+		<!-- 生成实体类地址 -->	
+		<javaModelGenerator targetPackage="entity" targetProject="ylTeamMusic" >
+			<!-- 是否在当前路径下新加一层schema,eg：false路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+			<property name="enableSubPackages" value="false"/>
+			<!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+			<property name="trimStrings" value="true"/>
+		</javaModelGenerator>
+		
+		<!-- 生成mapxml文件 -->
+		<sqlMapGenerator targetPackage="mapper" targetProject="ylTeamMusic" >
+			<!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+		
+		<!-- 生成mapxml对应client，也就是接口dao -->	
+		<javaClientGenerator targetPackage="dao" targetProject="ylTeamMusic" type="XMLMAPPER" >
+			<!-- type有三个值：XMLMAPPER、ANNOTATEDMAPPER、MIXMAPPER -->
+			<!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator>
+		
+		<!-- 配置表信息 -->	
+		<table tableName="user" domainObjectName="User">
+			<!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample 
+				是否生成 example类   -->
+			<generatedKey column="userId" sqlStatement="mysql" identity="true"/>
+		</table> 
+		
+	</context>
+	<!-- 了解更多配置，请百度搜索：mybatis generator -->
+</generatorConfiguration>

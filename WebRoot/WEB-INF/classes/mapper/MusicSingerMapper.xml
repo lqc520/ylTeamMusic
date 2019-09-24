@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.MusicSingerMapper">
+	<select id="findMusicBySingerForJson" parameterType="int" resultType="hashmap">
+		SELECT musicName title,singerName artist,songURL mp3,singerPhotoURL poster,musicTime from singer,music WHERE music.singerId=singer.singerId and singer.singerId=#{singerId}
+	</select>
+	<select id="findAllMusicSingerForJson" resultType="hashmap">
+		SELECT musicName title,singerName artist,songURL mp3,musicPhotoURL poster,musicTime from singer,music WHERE music.singerId=singer.singerId
+	</select>
+	<select id="findTop10Singer" resultType="hashmap">
+		SELECT musicName title,singerName artist,songURL mp3,singerPhotoURL poster,musicTime from singer,music WHERE music.singerId=singer.singerId ORDER BY singerHot desc limit 10
+	</select>
+	<select id="searchMusicOrSinger" resultType="hashmap" parameterType="hashmap">
+		SELECT musicName title,singerName artist, songURL mp3,singerPhotoURL poster,musicTime from singer,music WHERE music.singerId=singer.singerId and (musicName like "%"#{content}"%" or singerName like "%"#{content}"%")
+	</select>
+	<select id="findHotMusic" resultType="hashmap">
+		SELECT musicName title,singerName artist,songURL mp3,singerPhotoURL poster,musicTime from singer,music WHERE music.singerId=singer.singerId ORDER BY musicHot desc
+	</select>
+	<select id="findnewMusic" resultType="hashmap">
+		SELECT musicName title,singerName artist,songURL mp3,singerPhotoURL poster,musicTime from singer,music WHERE music.singerId=singer.singerId ORDER BY time desc limit 50
+	</select>
+</mapper>

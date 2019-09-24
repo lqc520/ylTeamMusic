@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.MusicMapper" >
+  <resultMap id="BaseResultMap" type="entity.Music" >
+    <id column="musicId" property="musicid" jdbcType="INTEGER" />
+    <result column="musicName" property="musicname" jdbcType="VARCHAR" />
+    <result column="musicPhotoURL" property="musicphotourl" jdbcType="VARCHAR" />
+    <result column="singerId" property="singerid" jdbcType="INTEGER" />
+    <result column="musicHot" property="musichot" jdbcType="INTEGER" />
+    <result column="lyricURL" property="lyricurl" jdbcType="VARCHAR" />
+    <result column="musicTypeId" property="musictypeid" jdbcType="INTEGER" />
+    <result column="songURL" property="songurl" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="musicTime" property="musictime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    musicId, musicName, musicPhotoURL, singerId, musicHot, lyricURL, musicTypeId, songURL, 
+    time, musicTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="entity.MusicExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from music
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from music
+    where musicId = #{musicid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from music
+    where musicId = #{musicid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="entity.MusicExample" >
+    delete from music
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="entity.Music" >
+    <selectKey resultType="java.lang.Integer" keyProperty="musicid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into music (musicName, musicPhotoURL, singerId, 
+      musicHot, lyricURL, musicTypeId, 
+      songURL, time, musicTime
+      )
+    values (#{musicname,jdbcType=VARCHAR}, #{musicphotourl,jdbcType=VARCHAR}, #{singerid,jdbcType=INTEGER}, 
+      #{musichot,jdbcType=INTEGER}, #{lyricurl,jdbcType=VARCHAR}, #{musictypeid,jdbcType=INTEGER}, 
+      #{songurl,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{musictime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="entity.Music" >
+    <selectKey resultType="java.lang.Integer" keyProperty="musicid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into music
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="musicname != null" >
+        musicName,
+      </if>
+      <if test="musicphotourl != null" >
+        musicPhotoURL,
+      </if>
+      <if test="singerid != null" >
+        singerId,
+      </if>
+      <if test="musichot != null" >
+        musicHot,
+      </if>
+      <if test="lyricurl != null" >
+        lyricURL,
+      </if>
+      <if test="musictypeid != null" >
+        musicTypeId,
+      </if>
+      <if test="songurl != null" >
+        songURL,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="musictime != null" >
+        musicTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="musicname != null" >
+        #{musicname,jdbcType=VARCHAR},
+      </if>
+      <if test="musicphotourl != null" >
+        #{musicphotourl,jdbcType=VARCHAR},
+      </if>
+      <if test="singerid != null" >
+        #{singerid,jdbcType=INTEGER},
+      </if>
+      <if test="musichot != null" >
+        #{musichot,jdbcType=INTEGER},
+      </if>
+      <if test="lyricurl != null" >
+        #{lyricurl,jdbcType=VARCHAR},
+      </if>
+      <if test="musictypeid != null" >
+        #{musictypeid,jdbcType=INTEGER},
+      </if>
+      <if test="songurl != null" >
+        #{songurl,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="musictime != null" >
+        #{musictime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="entity.MusicExample" resultType="java.lang.Integer" >
+    select count(*) from music
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update music
+    <set >
+      <if test="record.musicid != null" >
+        musicId = #{record.musicid,jdbcType=INTEGER},
+      </if>
+      <if test="record.musicname != null" >
+        musicName = #{record.musicname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.musicphotourl != null" >
+        musicPhotoURL = #{record.musicphotourl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.singerid != null" >
+        singerId = #{record.singerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.musichot != null" >
+        musicHot = #{record.musichot,jdbcType=INTEGER},
+      </if>
+      <if test="record.lyricurl != null" >
+        lyricURL = #{record.lyricurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.musictypeid != null" >
+        musicTypeId = #{record.musictypeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.songurl != null" >
+        songURL = #{record.songurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.time != null" >
+        time = #{record.time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.musictime != null" >
+        musicTime = #{record.musictime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update music
+    set musicId = #{record.musicid,jdbcType=INTEGER},
+      musicName = #{record.musicname,jdbcType=VARCHAR},
+      musicPhotoURL = #{record.musicphotourl,jdbcType=VARCHAR},
+      singerId = #{record.singerid,jdbcType=INTEGER},
+      musicHot = #{record.musichot,jdbcType=INTEGER},
+      lyricURL = #{record.lyricurl,jdbcType=VARCHAR},
+      musicTypeId = #{record.musictypeid,jdbcType=INTEGER},
+      songURL = #{record.songurl,jdbcType=VARCHAR},
+      time = #{record.time,jdbcType=TIMESTAMP},
+      musicTime = #{record.musictime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="entity.Music" >
+    update music
+    <set >
+      <if test="musicname != null" >
+        musicName = #{musicname,jdbcType=VARCHAR},
+      </if>
+      <if test="musicphotourl != null" >
+        musicPhotoURL = #{musicphotourl,jdbcType=VARCHAR},
+      </if>
+      <if test="singerid != null" >
+        singerId = #{singerid,jdbcType=INTEGER},
+      </if>
+      <if test="musichot != null" >
+        musicHot = #{musichot,jdbcType=INTEGER},
+      </if>
+      <if test="lyricurl != null" >
+        lyricURL = #{lyricurl,jdbcType=VARCHAR},
+      </if>
+      <if test="musictypeid != null" >
+        musicTypeId = #{musictypeid,jdbcType=INTEGER},
+      </if>
+      <if test="songurl != null" >
+        songURL = #{songurl,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="musictime != null" >
+        musicTime = #{musictime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where musicId = #{musicid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="entity.Music" >
+    update music
+    set musicName = #{musicname,jdbcType=VARCHAR},
+      musicPhotoURL = #{musicphotourl,jdbcType=VARCHAR},
+      singerId = #{singerid,jdbcType=INTEGER},
+      musicHot = #{musichot,jdbcType=INTEGER},
+      lyricURL = #{lyricurl,jdbcType=VARCHAR},
+      musicTypeId = #{musictypeid,jdbcType=INTEGER},
+      songURL = #{songurl,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      musicTime = #{musictime,jdbcType=VARCHAR}
+    where musicId = #{musicid,jdbcType=INTEGER}
+  </update>
+  <select id="selectRodomMusics" resultType="hashmap">
+		SELECT musicName as title,singerName as artist,musicPhotoURL as poster,lyricURL,songURL as mp3 FROM music LEFT join singer on music.singerId=singer.singerId ORDER BY RAND() LIMIT 12;
+  </select>
+  
+  <select id="selectNewSongs" resultType="hashmap">
+  		SELECT musicName as title,singerName as artist,musicPhotoURL as poster,lyricURL,songURL as mp3 FROM music LEFT join singer on music.singerId=singer.singerId ORDER BY time DESC LIMIT 8
+  </select>
+  
+  <select id="selectTopSongs" resultType="hashmap">
+  		SELECT musicHot,musicName as title,singerName as artist,musicPhotoURL as poster,lyricURL,songURL as mp3 from music LEFT join singer on music.singerId=singer.singerId ORDER BY music.musicHot DESC LIMIT 5
+  </select>
+  
+  <select id="selectTopSinger" resultType="hashmap">
+  		SELECT * FROM singer ORDER BY singerHot DESC LIMIT 10  
+  </select>
+  <select id="findPageList" parameterType="map" resultType="entity.Music">
+  		SELECT *,singerName from music LEFT JOIN singer ON music.singerId=singer.singerId 
+  		<if test="musictypeid!=null">
+  		 WHERE musicTypeId=#{musictypeid} 
+  		</if>
+  		LIMIT #{start},#{pagesize}
+  </select>
+  
+  <select id="selectAllSong" resultType="hashmap">
+		SELECT * from music join singer on music.singerId = singer.singerId join
+		musictype on music.musicTypeId=musictype.musicTypeId ORDER BY time DESC
+  </select>
+</mapper>

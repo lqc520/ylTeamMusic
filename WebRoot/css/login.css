@@ -1,0 +1,50 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	color:lightgray;
+	background:url("WebRoot/images/bg2.jpg");
+	background-size"WebRoot/images/bg.jpg": cover;
+}
+input{
+	font-size: 20px;
+	line-height: 20px;
+	background: lightgrey;
+}
+.login{
+	font-size: 20px;
+	background: url(../images/bg.jpg);
+	background:url("WebRoot/images/bg.jpg");
+	background-size: 100% 100%;
+	width: 600px;
+	height: 400px;
+	position: fixed;
+	top: 50%;
+	left: 70%;
+	transform: translateX(-50%) translateY(-50%);
+}
+
+h2{
+	margin-left: 40%;
+	padding-top: 20px;
+}
+.main{
+	width: 400px;
+	height: 280px;
+	margin-left:20%;
+	margin-top: 30px;
+	
+}
+input{
+	margin-top: 15px;
+}
+.right{
+	margin-left:120px;
+}
+.register{
+	text-decoration: none;
+	color: black;	
+	margin-left: 60%;
+
+}

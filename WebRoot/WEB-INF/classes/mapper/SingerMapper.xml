@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.SingerMapper" >
+  <resultMap id="BaseResultMap" type="entity.Singer" >
+    <id column="singerId" property="singerid" jdbcType="INTEGER" />
+    <result column="singerName" property="singername" jdbcType="VARCHAR" />
+    <result column="singerPhotoURL" property="singerphotourl" jdbcType="VARCHAR" />
+    <result column="singerHot" property="singerhot" jdbcType="INTEGER" />
+    <result column="typeId" property="typeid" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    singerId, singerName, singerPhotoURL, singerHot, typeId, address
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="entity.SingerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from singer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from singer
+    where singerId = #{singerid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from singer
+    where singerId = #{singerid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="entity.SingerExample" >
+    delete from singer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="entity.Singer" >
+    <selectKey resultType="java.lang.Integer" keyProperty="singerid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into singer (singerName, singerPhotoURL, singerHot, 
+      typeId, address)
+    values (#{singername,jdbcType=VARCHAR}, #{singerphotourl,jdbcType=VARCHAR}, #{singerhot,jdbcType=INTEGER}, 
+      #{typeid,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="entity.Singer" >
+    <selectKey resultType="java.lang.Integer" keyProperty="singerid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into singer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="singername != null" >
+        singerName,
+      </if>
+      <if test="singerphotourl != null" >
+        singerPhotoURL,
+      </if>
+      <if test="singerhot != null" >
+        singerHot,
+      </if>
+      <if test="typeid != null" >
+        typeId,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="singername != null" >
+        #{singername,jdbcType=VARCHAR},
+      </if>
+      <if test="singerphotourl != null" >
+        #{singerphotourl,jdbcType=VARCHAR},
+      </if>
+      <if test="singerhot != null" >
+        #{singerhot,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="entity.SingerExample" resultType="java.lang.Integer" >
+    select count(*) from singer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update singer
+    <set >
+      <if test="record.singerid != null" >
+        singerId = #{record.singerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.singername != null" >
+        singerName = #{record.singername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.singerphotourl != null" >
+        singerPhotoURL = #{record.singerphotourl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.singerhot != null" >
+        singerHot = #{record.singerhot,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeid != null" >
+        typeId = #{record.typeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update singer
+    set singerId = #{record.singerid,jdbcType=INTEGER},
+      singerName = #{record.singername,jdbcType=VARCHAR},
+      singerPhotoURL = #{record.singerphotourl,jdbcType=VARCHAR},
+      singerHot = #{record.singerhot,jdbcType=INTEGER},
+      typeId = #{record.typeid,jdbcType=INTEGER},
+      address = #{record.address,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="entity.Singer" >
+    update singer
+    <set >
+      <if test="singername != null" >
+        singerName = #{singername,jdbcType=VARCHAR},
+      </if>
+      <if test="singerphotourl != null" >
+        singerPhotoURL = #{singerphotourl,jdbcType=VARCHAR},
+      </if>
+      <if test="singerhot != null" >
+        singerHot = #{singerhot,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null" >
+        typeId = #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where singerId = #{singerid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="entity.Singer" >
+    update singer
+    set singerName = #{singername,jdbcType=VARCHAR},
+      singerPhotoURL = #{singerphotourl,jdbcType=VARCHAR},
+      singerHot = #{singerhot,jdbcType=INTEGER},
+      typeId = #{typeid,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR}
+    where singerId = #{singerid,jdbcType=INTEGER}
+  </update>
+</mapper>

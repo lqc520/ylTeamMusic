@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+<!-- 配置注解的扫描路径。控制器包中 -->
+	<context:component-scan base-package="controller"/>
+	<!-- 相当于注册了DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 两个bean，是springmvc开发所必须的 -->
+	
+	<!-- @@@@@@@  mybatis&spring连接池配置  @@@@@@ -->
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/music"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="123456"></property>
+	</bean>
+	配置基本mybatis
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		dataSource属性指定要用的连接池
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="mapperLocations" value="classpath:mapper/*.xml"/>
+		将对应entity的java文件都配置到这里
+		<property name="typeAliasesPackage" value="entity"></property>
+	</bean>
+	配置dao接口
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="dao"></property>
+	</bean> -->
+	
+	
+	<!-- 配置事务 -->
+	<!-- <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		 <property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager"/> -->
+	
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+        <property name="messageConverters">  
+            <list>  
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>  
+                <!-- spring使用了jackson类库，帮助我们在java对象和json、xml数据之间的互相转换 -->
+            </list>  
+        </property>
+    </bean>
+    
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView" value="404"></property>
+		<property name="exceptionAttribute" value="ex"></property>
+	</bean>
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/*Manager.html"/>
+<!-- 			<mvc:mapping path="/userManager.html"/> -->
+<!-- 			<mvc:mapping path="/Manager.html"/> -->
+			<bean class="interceptor.AdminInterceptor"></bean> 
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
+	<!-- 创建1个视图解析器，支持jsp -->
+	<bean id="viewResovler" 
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">		
+		<!-- 视图文件的前缀 -->
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<!-- 视图文件的后缀 -->
+		<property name="suffix" value=".jsp"/>
+		<!-- 视图文件的具体类型 -->
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>	
+	</bean>
+	
+	<!-- 文件上传 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8"></property>   
+        <property name="maxUploadSize" value="10485760000"></property>  
+        <property name="maxInMemorySize" value="40960"></property>  
+	</bean>
+	
+
+</beans>	
